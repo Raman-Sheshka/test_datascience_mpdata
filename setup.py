@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
     content = f.readlines()
 requirements = [x.strip() for x in content if 'git+' not in x]
 
-setup(name='nba_classifier',
+setup(name='mpdatanba',
       license ='Apache License 2.0',
       author='rsheshka',
       install_requires=requirements,
