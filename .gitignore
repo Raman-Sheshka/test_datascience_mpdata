@@ -1,8 +1,8 @@
 # data directories
 *_data/
-*_save_model/
-*_save_stat_model/
-*_logs/
+data_*/
+save_model*/
+logs_*/
 
 # data files and model files
 *.pkl
