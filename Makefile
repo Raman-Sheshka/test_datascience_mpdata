@@ -7,3 +7,6 @@ reinstall_package:
 
 default:
 	@echo 'Please specify a target to run'
+
+run_api:
+	uvicorn mpdatanba.api.fast_api:app --reload
