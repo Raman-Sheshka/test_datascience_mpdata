@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from mpdatanba.ml_logic.ml_workflow import load_model
+from mpdatanba.ml_logic.ml_workflow import load_model, predict_model
 
 app = FastAPI()
 
@@ -19,35 +19,35 @@ app.add_middleware(
 )
 
 @app.get("/predict/")
-def predict():
-    data = pd.DataFrame({
-        'PTS': [110],
-        'FGM': [40],
-        'FGA': [90],
-        'FG%': [0.44],
-        '3PM': [10],
-        '3PA': [30],
-        '3P%': [0.33],
-        'FTM': [20],
-        'FTA': [30],
-        'FT%': [0.67],
-        'OREB': [10],
-        'DREB': [30],
-        'REB': [40],
-        'AST': [20],
-        'TOV': [15],
-        'STL': [10],
-        'BLK': [5],
-        'PF': [20],
-        'FP': [100],
-        'DD2': [5],
-        'TD3': [1]
-    })
+def predict(gp: float,
+            fgm: float,
+            fg_pca: float,
+            oreb: float,
+            reb: float,
+            pts: float,
+            ftm: float,
+            ft_pca: float,
+            tov: float
+            ):
+    data_test = np.array([0.52112676,
+                          0.06060606,
+                          0.28657315,
+                          0.01886792,
+                          0.04411765,
+                          0.05090909,
+                          0.02597403,
+                          0.563,
+                          0.13953488
+                          ])
+
 
     model = app.state.model
-    #prediction = model.predict(data)
-    #return {'prediction': prediction.tolist()}
-    return dict(prediction=np.array([1, 0]))
+    prediction = predict_model(model,
+                               [data_test]
+                               )
+    print(prediction)
+    print(type(prediction))
+    return {'prediction': prediction.tolist()}
 
 @app.get("/")
 def root():
