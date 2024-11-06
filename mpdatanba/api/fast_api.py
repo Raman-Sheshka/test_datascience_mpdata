@@ -5,6 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from mpdatanba.ml_logic.ml_workflow import load_model
 
 app = FastAPI()
+
+# pre-load the model
 app.state.model = load_model()
 
 # for dev purposes
