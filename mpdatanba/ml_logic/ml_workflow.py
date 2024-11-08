@@ -12,7 +12,7 @@ from mpdatanba import PARENT_BASE_PATH
 
 class MlModelWorkflow:
     def __init__(self,
-                 model_type:str='lgbm',
+                 model_type:str='sklearn',
                  model_target:str='local',
                  ):
         self.model_type = model_type
@@ -120,7 +120,7 @@ class MlModelWorkflow:
 
             assert local_model_paths, "No model found on local disk"
 
-            most_recent_model_path_on_disk = sorted(local_model_paths)[-1]
+            most_recent_model_path_on_disk = sorted(local_model_paths)[0]
             if self.model_type == 'lgbm':
                 latest_model = lgb.Booster(model_file=most_recent_model_path_on_disk)
             if self.model_type == 'sklearn':
