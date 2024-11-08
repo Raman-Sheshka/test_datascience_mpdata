@@ -107,9 +107,8 @@ def predict(input_features: InputFeatures):
                           input_features.blk,
                           input_features.tov
                           ]])
-    prediction = model_.predict_model(X=data_test)
+    prediction = model_.compute_predict(X=data_test)
     print(prediction)
-    print(type(prediction))
     return {'prediction': prediction.tolist()}
 
 # root endpoint

@@ -12,13 +12,14 @@ from mpdatanba import PARENT_BASE_PATH
 
 class MlModelWorkflow:
     def __init__(self,
-                 model_type:str='sklearn',
-                 model_target:str='local',
+                 model_type:str='sklearn', # should be declared in config
+                 model_target:str='local', # should be declared in config
                  ):
         self.model_type = model_type
         self.model_target = model_target
         self.model = None
         self.__threshold = 0.5
+        self.__model_dir_path = self.get_model_dir_path()
 
     def set_model(self, model):
         self.model = model
@@ -79,14 +80,14 @@ class MlModelWorkflow:
         :param y_pred: predicted labels
         :return: confusion matrix, recall, precision, accuracy
         """
-        y_pred = self.model.predict(X_test)
+        y_pred = self.compute_predict(X_test)
         recall = recall_score(y_test, y_pred)
         precision = precision_score(y_test, y_pred)
         accuracy = accuracy_score(y_test, y_pred)
 
         return recall, precision, accuracy
 
-    def predict_model(self,
+    def compute_predict(self,
                     X,
                     ) :
         print("Making predictions...")
@@ -111,42 +112,38 @@ class MlModelWorkflow:
         """
         # Load the model
         print("Loading model...")
-        if self.model_target == "local":
-            # Get the latest model version name by the timestamp on disk
-            local_model_directory = os.path.join(PARENT_BASE_PATH,
-                                                "save_models"
-                                                )
-            local_model_paths = glob.glob(f"{local_model_directory}/*")
+        # Get the latest model version name by the timestamp on disk
+        local_model_paths = glob.glob(f"{self.__model_dir_path}/*")
 
-            assert local_model_paths, "No model found on local disk"
+        assert local_model_paths, "No model found on local disk"
 
-            most_recent_model_path_on_disk = sorted(local_model_paths)[0]
-            if self.model_type == 'lgbm':
-                latest_model = lgb.Booster(model_file=most_recent_model_path_on_disk)
-            if self.model_type == 'sklearn':
-                latest_model = joblib.load(most_recent_model_path_on_disk)
-            print("Model loaded from local disk")
-            self.model = latest_model
-            return
+        most_recent_model_path_on_disk = sorted(local_model_paths)[0]
+        if self.model_type == 'lgbm':
+            latest_model = lgb.Booster(model_file=most_recent_model_path_on_disk)
+        if self.model_type == 'sklearn':
+            latest_model = joblib.load(most_recent_model_path_on_disk)
+        print("Model loaded from local disk")
+        self.model = latest_model
+        return
 
     def save_model(self):
         # Save the model
         print("Saving model...")
         assert self.model is not None, "Load Model or Train Model before saving"
-        if self.model_target == "local":
-            local_model_directory = os.path.join(PARENT_BASE_PATH,
-                                                "save_models"
-                                                )
-            create_folder_if_not_exists(local_model_directory)
-            if self.model_type == 'lgbm':
-                model_file = os.path.join(local_model_directory,
+        create_folder_if_not_exists(self.__model_dir_path)
+        if self.model_type == 'lgbm':
+            model_file = os.path.join(self.__model_dir_path,
                                 "model_selected.txt"
                                 )
-                self.model.save_model(model_file)
-            if self.model_type == 'sklearn':
-                model_file = os.path.join(local_model_directory,
+            self.model.save_model(model_file)
+        if self.model_type == 'sklearn':
+            model_file = os.path.join(self.__model_dir_path,
                                 "model_selected.pkl"
                                 )
-                joblib.dump(self.model, model_file)
+            joblib.dump(self.model, model_file)
         print("Model saved!")
         return
+
+    def get_model_dir_path(self):
+        if self.model_target == "local":
+           return os.path.join(PARENT_BASE_PATH,"save_models")
