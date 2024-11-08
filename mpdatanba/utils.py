@@ -1,6 +1,8 @@
 import os
+import re
+import unidecode
 import pandas as pd
-from typing import List
+from typing import Union, List
 from itertools import compress
 
 def check_if_list_of_columns_exist(df: pd.DataFrame,
@@ -21,3 +23,25 @@ def create_folder_if_not_exists(folder_name):
         os.makedirs(folder_name)
     else:
         print(f"Folder {folder_name} already exists")
+
+def ts_slugify(ts : Union[str, pd.Series]):
+    # slugify a pandas series or a string
+    # remove special characters, accents and spaces
+    # replace spaces by underscores
+    # convert to lower case
+    # it's a bit slow
+    # TODO : use np.vectorize to make it faster
+    if isinstance(ts, pd.Series):
+        ts = ts.str.lower().str.replace(' ', '_')
+        ts = ts.str.normalize('NFKD').str.encode('ascii', errors='ignore').str.decode('utf-8')
+        ts = ts.str.replace(pat="[^0-9A-z%_-]+", repl='', regex=True)
+        ts = ts.str.replace(pat="['\\\\']", repl='', regex=True)
+        return ts.str.strip('_')
+    if isinstance(ts, str):
+        string = ts.lower().replace(' ', '_')
+        #replace % by percent
+        string = string.replace('%', '_pca')
+        string = unidecode.unidecode(string)
+        string = re.sub('[^0-9A-z%_-]+', '', string)
+        string = re.sub("['\\\\']", '', string)
+        return string.strip('_')

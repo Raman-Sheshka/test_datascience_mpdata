@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.metrics import confusion_matrix, recall_score
+from sklearn.metrics import confusion_matrix, recall_score, precision_score, accuracy_score
 from sklearn.model_selection import KFold
 
 

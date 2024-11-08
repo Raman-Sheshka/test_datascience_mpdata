@@ -29,15 +29,15 @@ def predict(gp: float,
             ft_pca: float,
             tov: float
             ):
-    data_test = np.array([0.52112676,
-                          0.06060606,
-                          0.28657315,
-                          0.01886792,
-                          0.04411765,
-                          0.05090909,
-                          0.02597403,
-                          0.563,
-                          0.13953488
+    data_test = np.array([gp,
+                          fgm,
+                          fg_pca,
+                          oreb,
+                          reb,
+                          pts,
+                          ftm,
+                          ft_pca,
+                          tov
                           ])
 
 
@@ -53,3 +53,7 @@ def predict(gp: float,
 def root():
     return {'message': 'Hello Word!',
            }
+
+@app.get("/health")
+def check_health():
+    return {"status": "ok"}
