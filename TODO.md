@@ -7,4 +7,5 @@
 - [] train-predict model
 - [x] finalize fastapi interface
 - [ ] finalize restapi interface
+- [] add Django project
 - [] strcuture classes

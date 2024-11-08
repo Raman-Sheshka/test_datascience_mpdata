@@ -14,3 +14,6 @@ requests
 uvicorn
 shap
 tqdm
+joblib
+django
+rich
