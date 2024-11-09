@@ -1,10 +1,9 @@
 import numpy as np
 import inspect
 from django.test import TestCase
-from mpdatanba.ml_logic.ml_workflow import MlModelWorkflow
+from ml.classifier import Classifier
 from ml.registry import MLRegistry
 
-# Create your tests here.
 class MLDjangoTests(TestCase):
     def test_ml_algorithm(self):
         test_data = {
@@ -28,8 +27,7 @@ class MLDjangoTests(TestCase):
                     'blk': 0.10256410256410259,
                     'tov': 0.23255813953488375
                     }
-        my_alg = MlModelWorkflow()
-        my_alg.load_model() # load the latest model
+        my_alg = Classifier()
         prediction = my_alg.compute_predict(np.array([list(test_data.values())]))
         self.assertIsNotNone(prediction)
         self.assertIn(prediction, [1.0])
@@ -55,13 +53,13 @@ class MLDjangoTests(TestCase):
         registry = MLRegistry()
         self.assertEqual(len(registry.endpoints), 0)
         endpoint_name = "income_classifier"
-        algorithm_object = MlModelWorkflow()
+        algorithm_object = Classifier()
         algorithm_name = "LGBMClassifier"
         algorithm_status = "production"
         algorithm_version = "0.0.1"
         algorithm_owner = "Roman"
         algorithm_description = "LGBMClassifier with simple pre-processing"
-        algorithm_code = inspect.getsource(MlModelWorkflow)
+        algorithm_code = inspect.getsource(Classifier)
         # add to registry
         registry.add_algorithm(endpoint_name, algorithm_object, algorithm_name,
                     algorithm_status, algorithm_version, algorithm_owner,

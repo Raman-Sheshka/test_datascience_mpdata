@@ -11,15 +11,17 @@ from mpdatanba import PARENT_BASE_PATH
 
 
 class MlModelWorkflow:
+    # the class serve to train, evaluate, save and load the model #
     def __init__(self,
                  model_type:str='sklearn', # should be declared in config
-                 model_target:str='local', # should be declared in config
+                 mode:str='debug', # should be declared in config
                  ):
         self.model_type = model_type
-        self.model_target = model_target
-        self.model = None
+        self.execution_mode = mode
         self.__threshold = 0.5
         self.__model_dir_path = self.get_model_dir_path()
+        self.model = None
+        self.encoder = self.load_encoder()
 
     def set_model(self, model):
         self.model = model
@@ -33,6 +35,11 @@ class MlModelWorkflow:
         time.sleep(2)
         print("Model trained!")
         return None
+
+    def preprocess_data(self, x):
+        # Preprocess the data
+        print("Preprocessing data...")
+        return self.encoder.transform(x)
 
     def score_classifier(self,
                         X,
@@ -71,9 +78,9 @@ class MlModelWorkflow:
         return confusion_mat, recall
 
     def evaluate_model(self,
-                    X_test,
-                    y_test,
-                    ):
+                        X_test,
+                        y_test,
+                        ):
         """
         Evaluate the model
         :param y_true: true labels
@@ -93,7 +100,7 @@ class MlModelWorkflow:
         print("Making predictions...")
         assert self.model is not None, "Model is not loaded"
         assert isinstance(X, np.ndarray), "X must be a numpy array"
-
+        X = self.preprocess_data(X)
         y_pred = self.model.predict(X)
 
         if self.model_type == 'lgbm':
@@ -144,6 +151,20 @@ class MlModelWorkflow:
         print("Model saved!")
         return
 
+    def load_encoder(self):
+        # Load the encoder
+        print("Loading encoder...")
+        encoder_file = os.path.join(self.__model_dir_path,
+                                "scaler.pkl"
+                                )
+        try:
+            scaler = joblib.load(encoder_file)
+            print("Encoder loaded!")
+            return scaler
+        except FileNotFoundError:
+            print("No encoder found on local disk")
+            return
+
     def get_model_dir_path(self):
-        if self.model_target == "local":
+        if self.execution_mode == "debug":
            return os.path.join(PARENT_BASE_PATH,"save_models")
