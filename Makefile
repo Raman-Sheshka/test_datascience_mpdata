@@ -5,7 +5,7 @@ help:
 	@echo "  reinstall_package  to install/reinstall the package"
 	@echo "  run_django_server  to run the Django server"
 	@echo "  run_fastapi        to run the FastAPI server"
-	@echo "  run_django_tests   to run the Django tests"
+	@echo "  run_django_test   to run the Django tests"
 
 #################### PACKAGE ACTIONS ###################
 reinstall_package:
@@ -19,5 +19,5 @@ run_fastapi:
 run_django_server:
 	@python backend/server/manage.py runserver
 
-run django_tests:
+run_django_test:
 	@python backend/server/manage.py test
