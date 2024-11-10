@@ -1,14 +1,45 @@
+# Project
+
+[![python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+[![fastapi](https://img.shields.io/badge/FastAPI-009485?style=for-the-badge&logo=fastapi&logoColor=white)](https://img.shields.io/badge/FastAPI-3776AB?style=for-the-badge&logo=fastapi&logoColor=white)
+[![django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
 
 ## Contexte et données
 
-Vous trouverez ci-joint un dataset
-nba_logreg.csv qui contient des statistiques sportives sur
-les joueurs débutants de la NBA. L’objectif est de fournir un classifier permettant de prédire
-qu’un joueur vaut le coup d’investir sur lui car il va durer plus de 5 ans en NBA en s’appuyant
-sur ses statistiques sportives. Ce modèle vise a conseiller des investisseur cherchant a
-capitaliser sur de futurs talents de la NBA.
-Le descriptif des paramètres du jeu de données est le suivant :
-Table 1 – description des features
+L’objectif est de fournir un classifier permettant de prédire qu’un joueur vaut le coup d’investir sur lui car il va durer plus de 5 ans en NBA en s’appuyant sur ses statistiques sportives. Le descriptif des paramètres du jeu de données est dans la table 1.
+
+| Feature         | Description                          |
+|-----------------|--------------------------------------|
+| gp              | Matchs joués                         |
+| min             | Minutes jouées                       |
+| pts             | Points marqués                       |
+| fgm             | Paniers réussis                      |
+| fga             | Paniers tentés                       |
+| fg%             | Pourcentage de réussite aux tirs     |
+| 3p_made         | Paniers à trois points réussis       |
+| 3pa             | Paniers à trois points tentés        |
+| 3p%             | Pourcentage de réussite aux tirs à trois points |
+| ftm             | Lancers francs réussis               |
+| fta             | Lancers francs tentés                |
+| ft%             | Pourcentage de réussite aux lancers francs |
+| oreb            | Rebonds offensifs                    |
+| dreb            | Rebonds défensifs                    |
+| reb             | Rebonds totaux                       |
+| ast             | Passes décisives                     |
+| stl             | Interceptions                        |
+| blk             | Contres                              |
+| tov             | Balles perdues                       |
+| target_5yrs     | Cible : Dure plus de 5 ans en NBA    |
+| name            | Nom du joueur                        |
+
+: Table 1 – description des features.
+
+Le classifier entraîné est intégrer sous forme de requête unitaire dans un webservice API. Nous avons implementé deux possibilitées :
+
+- Fast API
+- Django
+
+Le web service prends en entrée tous les paramètres pertinents et permet à un utilisateur faire une requête sur un seul joueur au modèle entraîné.
 
 ## install
 

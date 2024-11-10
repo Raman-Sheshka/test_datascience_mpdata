@@ -18,13 +18,12 @@ application = get_wsgi_application()
 # ML registry
 import inspect
 from ml.registry import MLRegistry
-from mpdatanba.ml_logic.ml_workflow import MlModelWorkflow
+from ml.classifier import Classifier
 
 try:
     registry = MLRegistry()  # create ML registry
     # Random Forest classifier
-    ml_model_object = MlModelWorkflow()
-    ml_model_object.load_model()
+    ml_model_object = Classifier()
     # add to ML registry
     registry.add_algorithm(endpoint_name="income_classifier",
                            algorithm_object=ml_model_object,
@@ -33,7 +32,7 @@ try:
                            algorithm_version="0.0.1",
                            owner="Roman",
                            algorithm_description="LGBMClassifier with simple pre-processing",
-                           algorithm_code=inspect.getsource(MlModelWorkflow)
+                           algorithm_code=inspect.getsource(Classifier)
                            )
 except Exception as e:
     print("Exception while loading the algorithms to the registry,", str(e))

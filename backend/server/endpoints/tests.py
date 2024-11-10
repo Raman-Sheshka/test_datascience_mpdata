@@ -5,49 +5,41 @@ from ml.classifier import Classifier
 from ml.registry import MLRegistry
 
 class MLDjangoTests(TestCase):
+
+    def test_model_instantiation(self):
+        my_alg = Classifier()
+        self.assertIsNotNone(my_alg.model)
+        self.assertIsNotNone(my_alg.encoder)
+
     def test_ml_algorithm(self):
         test_data = {
-                    'gp': 0.9295774647887325,
-                    'min': 0.29629629629629634,
-                    'pts': 0.16363636363636364,
-                    'fgm': 0.16161616161616163,
-                    'fga': 0.16842105263157894,
-                    'fg_pca': 0.47695390781563124,
+                    'gp': 77.0,
+                    'min': 14.3,
+                    'pts': 5.2,
+                    'fgm': 1.9,
+                    'fga': 4.0,
+                    'fg_pca': 47.6,
                     'three_p_made': 0.0,
                     'three_pa': 0.0,
                     'three_p_pca': 0.0,
-                    'ftm': 0.1818181818181818,
-                    'fta': 0.21568627450980396,
-                    'ft_pca': 0.632,
-                    'oreb': 0.2075471698113208,
-                    'dreb': 0.23404255319148934,
-                    'reb': 0.23529411764705885,
-                    'ast': 0.04716981132075472,
-                    'stl': 0.12,
-                    'blk': 0.10256410256410259,
-                    'tov': 0.23255813953488375
-                    }
+                    'ftm': 1.4,
+                    'fta': 2.2,
+                    'ft_pca': 63.2,
+                    'oreb': 1.1,
+                    'dreb': 2.4,
+                    'reb': 3.5,
+                    'ast': 0.5,
+                    'stl': 0.3,
+                    'blk': 0.4,
+                    'tov': 1.1
+                }
         my_alg = Classifier()
-        prediction = my_alg.compute_predict(np.array([list(test_data.values())]))
-        self.assertIsNotNone(prediction)
-        self.assertIn(prediction, [1.0])
-
-
-    def test_model_instantiation(self):
-        model = MlModelWorkflow()
-        model.load_model()
-        self.assertIsNotNone(model.model)
-
-    # def test_model_train(self):
-    #     model = MlModelWorkflow()
-    #     model.train_model()
-    #     self.assertIsNotNone(model.get_model())
-
-    # def test_model_score(self):
-    #     model = MlModelWorkflow()
-    #     model.train_model()
-    #     model.score_classifier(X=[[1, 2], [3, 4]], y=[0, 1])
-    #     self.assertIsNotNone(model.get_model())
+        response = my_alg.compute_predict(test_data)
+        self.assertEqual(response['status'], 'OK')
+        self.assertTrue('label' in response)
+        self.assertEqual(response['label'], 'Yes')
+        #self.assertIsNotNone(prediction)
+        #self.assertIn(prediction, [1.0])
 
     def test_registry(self):
         registry = MLRegistry()

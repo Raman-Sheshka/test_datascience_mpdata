@@ -47,8 +47,8 @@ app.add_middleware(
 
 # model info endpoint
 @app.get("/info")
-# use async def if you are using async functions
-async def model_info():
+# use async def if you are using async functionsn no need here
+def model_info():
     model = app.state.model
     model_name = model.__class__.__name__
     model_params = model.get_params()
@@ -61,31 +61,6 @@ async def model_info():
 
 # prediction endpoint
 @app.post("/predict")
-# def predict(gp: float, min: float, pts: float, fgm: float,fga: float,
-#             fg_pca: float, three_p_made: float,three_pa: float,
-#             three_p_pca: float, ftm: float, fta: float, ft_pca: float,
-#             oreb: float, dreb: float, reb: float, ast: float, stl: float,
-#             blk: float, tov: float):
-#     data_test = np.array([gp,
-#                           min,
-#                           pts,
-#                           fgm,
-#                           fga,
-#                           fg_pca,
-#                           three_p_made,
-#                           three_pa,
-#                           three_p_pca,
-#                           ftm,
-#                           fta,
-#                           ft_pca,
-#                           oreb,
-#                           dreb,
-#                           reb,
-#                           ast,
-#                           stl,
-#                           blk,
-#                           tov
-#                           ])
 def predict(input_features: InputFeatures):
     data_test = np.array([[input_features.gp,
                           input_features.min,
@@ -108,7 +83,7 @@ def predict(input_features: InputFeatures):
                           input_features.tov
                           ]])
     prediction = model_.compute_predict(X=data_test)
-    print(prediction)
+    print(f"return prediction : {prediction}")
     return {'prediction': prediction.tolist()}
 
 # root endpoint
