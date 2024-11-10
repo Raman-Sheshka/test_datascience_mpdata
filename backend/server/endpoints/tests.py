@@ -3,6 +3,7 @@ import inspect
 from django.test import TestCase
 from ml.classifier import Classifier
 from ml.registry import MLRegistry
+from rest_framework.test import APIClient
 
 class MLDjangoTests(TestCase):
 
@@ -35,9 +36,9 @@ class MLDjangoTests(TestCase):
                 }
         my_alg = Classifier()
         response = my_alg.compute_predict(test_data)
-        self.assertEqual(response['status'], 'OK')
-        self.assertTrue('label' in response)
-        self.assertEqual(response['label'], 'Yes')
+        self.assertEqual(response["status"], "OK")
+        self.assertTrue("label" in response)
+        self.assertEqual(response["label"], "Yes")
         #self.assertIsNotNone(prediction)
         #self.assertIn(prediction, [1.0])
 
@@ -58,3 +59,36 @@ class MLDjangoTests(TestCase):
                     algorithm_description, algorithm_code)
         # there should be one endpoint available
         self.assertEqual(len(registry.endpoints), 1)
+
+
+class EndpointTests(TestCase):
+
+    def test_predict_view(self):
+        client = APIClient()
+        input_data = {
+                    "gp": 77.0,
+                    "min": 14.3,
+                    "pts": 5.2,
+                    "fgm": 1.9,
+                    "fga": 4.0,
+                    "fg_pca": 47.6,
+                    "three_p_made": 0.0,
+                    "three_pa": 0.0,
+                    "three_p_pca": 0.0,
+                    "ftm": 1.4,
+                    "fta": 2.2,
+                    "ft_pca": 63.2,
+                    "oreb": 1.1,
+                    "dreb": 2.4,
+                    "reb": 3.5,
+                    "ast": 0.5,
+                    "stl": 0.3,
+                    "blk": 0.4,
+                    "tov": 1.1
+                }
+        classifier_url = "/api/v1/income_classifier/predict"
+        response = client.post(classifier_url, input_data, format='json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["label"], "Yes")
+        self.assertTrue("request_id" in response.data)
+        self.assertTrue("status" in response.data)

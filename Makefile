@@ -21,3 +21,6 @@ run_django_server:
 
 run_django_test:
 	@python backend/server/manage.py test
+
+run_flask:
+	@python flask/app.py

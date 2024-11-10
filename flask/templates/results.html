@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Prédiction du modèle</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h3>Votre conseil :</h3>
+    <div>Valeur prédite par le modèle : <strong>{{ prediction }}</strong>. Nous vous conseillons d'investir {{ label }}.
+    </div>
+</body>
+
+</html>

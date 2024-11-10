@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Classification des joueurs NBA</title>
+</head>
+<body>
+    <h1>Entrez les valeurs des caractéristiques</h1>
+    <form method="post" action="/results">
+        {% for field in form if field.type != 'CSRFToken' %}
+            <div>
+                {{ field.label }}: {{ field(size=10) }}
+            </div>
+        {% endfor %}
+        <div>
+              <input type="submit" value="Soumettre les paramètres" name="submit_btn">
+        </div>
+    </form>
+
+    {% if form.errors %}
+    <ul>
+        {% for field, errors in form.errors.items() %}
+            <li>{{ field }}: {{ errors[0] }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>
