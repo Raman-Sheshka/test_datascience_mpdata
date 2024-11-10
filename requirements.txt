@@ -16,4 +16,6 @@ shap
 tqdm
 joblib
 django
+django-filter
+djangorestframework
 rich

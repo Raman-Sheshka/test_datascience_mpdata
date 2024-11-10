@@ -13,25 +13,25 @@ class MLDjangoTests(TestCase):
 
     def test_ml_algorithm(self):
         test_data = {
-                    'gp': 77.0,
-                    'min': 14.3,
-                    'pts': 5.2,
-                    'fgm': 1.9,
-                    'fga': 4.0,
-                    'fg_pca': 47.6,
-                    'three_p_made': 0.0,
-                    'three_pa': 0.0,
-                    'three_p_pca': 0.0,
-                    'ftm': 1.4,
-                    'fta': 2.2,
-                    'ft_pca': 63.2,
-                    'oreb': 1.1,
-                    'dreb': 2.4,
-                    'reb': 3.5,
-                    'ast': 0.5,
-                    'stl': 0.3,
-                    'blk': 0.4,
-                    'tov': 1.1
+                    "gp": 77.0,
+                    "min": 14.3,
+                    "pts": 5.2,
+                    "fgm": 1.9,
+                    "fga": 4.0,
+                    "fg_pca": 47.6,
+                    "three_p_made": 0.0,
+                    "three_pa": 0.0,
+                    "three_p_pca": 0.0,
+                    "ftm": 1.4,
+                    "fta": 2.2,
+                    "ft_pca": 63.2,
+                    "oreb": 1.1,
+                    "dreb": 2.4,
+                    "reb": 3.5,
+                    "ast": 0.5,
+                    "stl": 0.3,
+                    "blk": 0.4,
+                    "tov": 1.1
                 }
         my_alg = Classifier()
         response = my_alg.compute_predict(test_data)

@@ -75,7 +75,9 @@ class MLRequestViewSet(
 class PredictView(views.APIView):
     def post(self, request, endpoint_name, format=None):
 
-        algorithm_status = self.request.query_params.get("status", "production")
+        algorithm_status = self.request.query_params.get("status",
+                                                         "production"
+                                                         )
         algorithm_version = self.request.query_params.get("version")
 
         algs = MLAlgorithm.objects.filter(parent_endpoint__name = endpoint_name,
@@ -101,7 +103,7 @@ class PredictView(views.APIView):
             alg_index = 0 if rand() < 0.5 else 1
 
         algorithm_object = registry.endpoints[algs[alg_index].id]
-        prediction = algorithm_object.compute_prediction(request.data)
+        prediction = algorithm_object.compute_predict(request.data)
 
 
         label = prediction["label"] if "label" in prediction else "error"

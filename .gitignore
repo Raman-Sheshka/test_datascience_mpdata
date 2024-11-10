@@ -9,7 +9,6 @@ logs_*/
 *.pth
 *.h5
 *.pt
-
 _docs/
 _proc/
 
@@ -167,3 +166,6 @@ checklink/cookies.txt
 *.csv
 *.parquet
 nbs/_extensions
+
+# django
+*.sqlite3

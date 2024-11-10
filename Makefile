@@ -4,7 +4,7 @@ help:
 	@echo "Please use 'make <target>' where <target> is one of"
 	@echo "  reinstall_package  to install/reinstall the package"
 	@echo "  run_django_server  to run the Django server"
-	@echo "  run_fastapi        to run the FastAPI server"
+	@echo "  run_fastapi        to run the FastAPI client"
 	@echo "  run_django_test   to run the Django tests"
 
 #################### PACKAGE ACTIONS ###################
