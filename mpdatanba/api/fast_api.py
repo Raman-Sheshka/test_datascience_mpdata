@@ -3,16 +3,17 @@ import numpy as np
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from mpdatanba import PARENT_BASE_PATH
-from mpdatanba.ml_logic.ml_workflow import MlModelWorkflow
+from mpdatanba.ml_logic.ml_workflow import MLWorkflow
 from pydantic import BaseModel
 
 app = FastAPI(debug=True)
 
 # pre-load the model
-model_ = MlModelWorkflow()
-model_.load_model()
+mlworkflow = MLWorkflow(model_type='sklearn')
+mlworkflow.load_model()
+mlworkflow.encoder = mlworkflow.load_encoder()
 
-app.state.model = model_.model
+app.state.model = mlworkflow.model
 
 
 class InputFeatures(BaseModel):
@@ -61,7 +62,7 @@ def model_info():
 
 # prediction endpoint
 @app.post("/predict")
-def predict(input_features: InputFeatures):
+async def predict(input_features: InputFeatures):
     data_test = np.array([[input_features.gp,
                           input_features.min,
                           input_features.pts,
@@ -82,7 +83,7 @@ def predict(input_features: InputFeatures):
                           input_features.blk,
                           input_features.tov
                           ]])
-    prediction = model_.compute_predict(X=data_test)
+    prediction = mlworkflow.compute_predict(X=data_test)
     print(f"return prediction : {prediction}")
     return {'prediction': prediction.tolist()}
 

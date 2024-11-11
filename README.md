@@ -48,11 +48,80 @@ Le web service prend en entrée tous les paramètres pertinents et permet à un 
 - Instanciez l'environnement virtuel avec votre outil de choix ; j'ai testé uniquement avec Python 3.10.6.
 - Copiez l'archive dans un répertoire de votre choix et activez l'environnement virtuel.
 - Dézipper l'archive.
+- Ajoutez les fichiers ***.env*** et ***.envrc***, dans ***.envrc*** appellez ***dotenv*** si nécessaire.
 - Dans le terminal, tapez la commande suivante pour installer les dépendances :
 
   ```bash
   make reinstall_package
   ```
+
+L'archive contient les fichiers suivants :
+
+```bash
+.
+├── Makefile
+├── README.md
+├── TODO.md
+├── backend
+│   └── server
+│       ├── endpoints
+│       │   ├── __init__.py
+│       │   ├── admin.py
+│       │   ├── apps.py
+│       │   ├── migrations
+│       │   │   ├── 0001_initial.py
+│       │   │   ├── __init__.py
+│       │   ├── models.py
+│       │   ├── serializers.py
+│       │   ├── tests.py
+│       │   ├── urls.py
+│       │   └── views.py
+│       ├── manage.py
+│       ├── ml
+│       │   ├── __init__.py
+│       │   ├── classifier.py
+│       │   └── registry.py
+│       └── server
+│           ├── __init__.py
+│           ├── asgi.py
+│           ├── settings.py
+│           ├── urls.py
+│           └── wsgi.py
+├── data
+│   └── nba_logreg.csv
+├── data_documents
+│   ├── test.py
+│   └── test_ds.pdf
+├── flask
+│   ├── app.py
+│   ├── static
+│   │   └── style.css
+│   └── templates
+│       ├── index.html
+│       └── results.html
+├── mpdatanba
+│   ├── __init__.py
+│   ├── api
+│   │   ├── __init__.py
+│   │   └── fast_api.py
+│   ├── ml_logic
+│   │   ├── __init__.py
+│   │   ├── ml_workflow.py
+│   │   └── preprocessor.py
+│   └── utils.py
+├── notebooks
+│   ├── study_nba_players_prediction_ml.ipynb
+│   └── summury_nba_players.ipynb
+├── requirements.txt
+├── save_models
+│   ├── model_selected.pkl
+│   └── scaler.pkl
+└── setup.py
+```
+
+Le module principal est ***mpdatanba***, qui contient les modules nécessaires pour l'API FastAPI et les fonctions de prédiction et ***notebooks*** contient les notebooks Jupyter.
+
+Le répertoire ***backend*** contient les applications Django, ***flask*** contient l'application Flask.
 
 ---
 
