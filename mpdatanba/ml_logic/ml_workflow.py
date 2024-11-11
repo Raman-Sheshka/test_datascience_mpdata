@@ -133,29 +133,23 @@ class MLModelWorkflow:
         # Load the model
         print("Loading model...")
         # Get the latest model version name by the timestamp on disk
-        local_model_paths = glob.glob(f"{self.model_dir_path}/*")
-
-        assert local_model_paths, "No model found on local disk"
-
-        most_recent_model_path_on_disk = sorted(local_model_paths)[0]
-        if self.model_type == 'lgbm':
-            latest_model = lgb.Booster(model_file=most_recent_model_path_on_disk)
-        if self.model_type == 'sklearn':
-            latest_model = joblib.load(most_recent_model_path_on_disk)
-        print("Model loaded from local disk")
-        self.model = latest_model
-        return
+        try:
+            local_model_path = os.path.join(self.model_dir_path,
+                                            "model_selected.pkl"
+                                            )
+            latest_model = joblib.load(local_model_path)
+            print("Model loaded from local disk")
+            self.model = latest_model
+            return
+        except FileNotFoundError:
+            print("No model found on local disk")
+            return
 
     def save_model(self):
         # Save the model
         print("Saving model...")
         assert self.model is not None, "Load Model or Train Model before saving"
         create_folder_if_not_exists(self.model_dir_path)
-        if self.model_type == 'lgbm':
-            model_file = os.path.join(self.model_dir_path,
-                                "model_selected.txt"
-                                )
-            self.model.save_model(model_file)
         if self.model_type == 'sklearn':
             model_file = os.path.join(self.model_dir_path,
                                 "model_selected.pkl"
