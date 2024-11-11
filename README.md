@@ -1,12 +1,13 @@
-# Project
+# Test MP DATA. API Webservice : Classificateur ML des joueurs de NBA
 
 [![python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 [![fastapi](https://img.shields.io/badge/FastAPI-009485?style=for-the-badge&logo=fastapi&logoColor=white)](https://img.shields.io/badge/FastAPI-3776AB?style=for-the-badge&logo=fastapi&logoColor=white)
 [![django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
+[![flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 
 ## Contexte et données
 
-L’objectif est de fournir un classifier permettant de prédire qu’un joueur vaut le coup d’investir sur lui car il va durer plus de 5 ans en NBA en s’appuyant sur ses statistiques sportives. Le descriptif des paramètres du jeu de données est dans la table 1.
+L’objectif est de fournir un classificateur permettant de prédire si un joueur vaut le coup d’investir sur lui car il va durer plus de 5 ans en NBA en s’appuyant sur ses statistiques sportives. Le descriptif des paramètres du jeu de données est dans la table 1.
 
 | Feature         | Description                          |
 |-----------------|--------------------------------------|
@@ -32,38 +33,81 @@ L’objectif est de fournir un classifier permettant de prédire qu’un joueur 
 | target_5yrs     | Cible : Dure plus de 5 ans en NBA    |
 | name            | Nom du joueur                        |
 
-: Table 1 – description des features.
+: Table 1 – description des fonctionnalités.
 
-Le classifier entraîné est intégrer sous forme de requête unitaire dans un webservice API. Nous avons implementé deux possibilitées :
+Le classificateur entraîné est intégré sous forme de requête unitaire dans un webservice API. Nous avons implémenté trois possibilités :
 
-- Fast API
-- Django
+- FastAPI : c'est mon outil de choix, très léger. Je n'ai pas fourni d'interface frontale, uniquement des requêtes et pas de sérialisation.
+- Django : un serveur, uniquement des requêtes avec une sérialisation rudimentaire et une base de données basique.
+- Flask : un petit outil avec une interface frontale rudimentaire pour l'utilisateur, pas de sérialisation.
 
-Le web service prends en entrée tous les paramètres pertinents et permet à un utilisateur faire une requête sur un seul joueur au modèle entraîné.
+Le web service prend en entrée tous les paramètres pertinents et permet à un utilisateur de faire une requête sur un seul joueur au modèle entraîné. Je n'ai pas prévu de déploiement, donc chaque webservice tournera uniquement en exécution locale.
 
-## install
+## Installation
 
-'''bash
-make reinstall package
-'''
+- Instanciez l'environnement virtuel avec votre outil de choix ; j'ai testé uniquement avec Python 3.10.6.
+- Copiez l'archive dans un répertoire de votre choix et activez l'environnement virtuel.
+- Dézipper l'archive.
+- Dans le terminal, tapez la commande suivante pour installer les dépendances :
 
-## Question 1 : Training
+  ```bash
+  make reinstall_package
+  ```
 
-Vous trouverez ci-joint un fichier template (
-test.py) à compléter qui lit et décode les données,
-et propose une fonction de scoring.
-Votre but sera de proposer, d’entraîner et de valider un classifier répondant le mieux possible
-à l’objectif des investisseurs. Le fichier fournit également une fonction de scoring en recall,
-que vous êtes libre de modifier tant que vous justifiez pourquoi. Plus que le résultat, c’est la
-démarche analytique qui nous intéresse. Il n’y a pas de restrictions sur le format de remise, si
-un jupyter notebook vous semble plus pertinent.
+---
 
-## Question 2 : Intégration
+Le package fourni ne devrait pas être considéré comme un produit prêt à être déployé en production, il s'agit d'une démonstration (voir comme un ***"POC"***). Un livrable fini devrait notamment contenir au moins la ***"containerization"***, un container ***Docker*** par webservice implémenté, par exemple.
 
-Une fois votre classifier entraîné, vous devrez l’intégrer sous forme de requête unitaire dans
-un webservice. Vous êtes libre de choisir la librairie qui vous convient (flask, django ou autre)
-Ce web service au format d’API REST devra prendre en entrée tous les paramètres pertinents
-que vous aurez identifié comme s’il était mis à disposition d’un utilisateur voulant faire une
-requête sur un seul joueur au modèle que vous aurez entraîné.
+## Explications: Jupyter notebook
 
-Call the API in your browser with this example: [http://localhost:8000/predict?gp=0.5&fgm=0.06&fg_pca=0.28&oreb=0.01&reb=0.04&pts=0.05&ftm=0.02&ft_pca=0.56&tov=0.14](http://localhost:8000/predict?gp=0.5&fgm=0.06&fg_pca=0.28&oreb=0.01&reb=0.04&pts=0.05&ftm=0.02&ft_pca=0.56&tov=0.14)
+La démarche avec les commentaires (en anglais) se trouve dans un Jupyter notebook dans le répertoire ***notebooks***:
+
+- [notebooks.study_nba_players_prediction_ml.ipynb](/notebooks/study_nba_players_prediction_ml.ipynb)
+
+Dans le même notebook, vous trouverez des bouts de code permettant de tester les prédictions fournies par le modèle sauvegardé en utilisant les API développées.
+
+## Fast API
+
+Pour lancer le client d'API en développement local, exécutez la commande dans le terminal:
+
+```bash
+make run_fastapi
+```
+
+La page d'accueil de l'API FastAPI est accessible à l'adresse suivante:
+
+  [http://127.0.0.1:8000/docs](http://http://127.0.0.1:8000/docs)
+
+## Flask API
+
+Pour lancer l'application Flask en développement local, exécutez la commande dans la terminal:
+
+```bash
+make run_flask
+```
+
+La page d'accueil de l'application Flask est accessible à l'adresse suivante:
+
+  [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+
+une fois les paramètres soummis, le résultat de la prédiction s'affichera à l'adresse suivante:
+
+  [http://127.0.0.1:5000/results](http://http://127.0.0.1:5000/results)
+
+## Django
+
+Pour lancer l'application Django en développement local, exécutez la commande dans le terminal:
+
+```bash
+make run_django_server
+```
+
+Peut-être que vous devrez exécuter les commandes suivantes pour créer la base de données et les migrations:
+
+```bash
+python backend/server/manage.py migrate
+```
+
+L'algorithme ML peut être accessible à l'adresse suivante :
+
+[http://127.0.0.1:8000/api/v1/income_classifier/predict](http://127.0.0.1:8000/api/v1/income_classifier/predict)
