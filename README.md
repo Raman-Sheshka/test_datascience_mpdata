@@ -48,6 +48,7 @@ Le web service prend en entrée tous les paramètres pertinents et permet à un 
 - Instanciez l'environnement virtuel avec votre outil de choix ; j'ai testé uniquement avec Python 3.10.6.
 - Copiez l'archive dans un répertoire de votre choix et activez l'environnement virtuel.
 - Dézipper l'archive.
+- Ajoutez les fichiers ***.env*** et ***.envrc***, dans ***.envrc*** appellez ***dotenv*** si nécessaire.
 - Dans le terminal, tapez la commande suivante pour installer les dépendances :
 
   ```bash
