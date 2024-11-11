@@ -165,6 +165,9 @@ une fois les paramètres soummis, le résultat de la prédiction s'affichera à 
 
 ## Django
 
+J'ai commencé à implémenter une application Django, mais je n'ai pas eu le temps de la finaliser : je n'ai pas implémenté la sérialisation des données,
+donc la base de données ne serve pas pleinement içi.
+
 Pour lancer l'application Django en développement local, exécutez la commande dans le terminal:
 
 ```bash
