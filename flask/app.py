@@ -1,14 +1,16 @@
 import numpy as np
 from flask import Flask, request, jsonify, render_template
 from wtforms import Form, SubmitField, DecimalField, validators
-from mpdatanba.ml_logic.ml_workflow import MlModelWorkflow
+from mpdatanba.ml_logic.ml_workflow import MLWorkflow
 
 app = Flask(__name__)
 
 
 # pre-load the model
-classifier = MlModelWorkflow()
+classifier = MLWorkflow(model_type='sklearn')
 classifier.load_model()
+classifier.encoder = classifier.load_encoder()
+
 
 
 class ParamsForm(Form):
