@@ -2,7 +2,6 @@
 
 [![python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 [![fastapi](https://img.shields.io/badge/FastAPI-009485?style=for-the-badge&logo=fastapi&logoColor=white)](https://img.shields.io/badge/FastAPI-3776AB?style=for-the-badge&logo=fastapi&logoColor=white)
-[![django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
 [![flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 
 ## Contexte et données
@@ -35,10 +34,9 @@ L’objectif est de fournir un classificateur permettant de prédire si un joueu
 
 : Table 1 – description des fonctionnalités.
 
-Le classificateur entraîné est intégré sous forme de requête unitaire dans un webservice API. Nous avons implémenté trois possibilités :
+Le classificateur entraîné est intégré sous forme de requête unitaire dans un webservice API. Nous avons implémenté deux possibilités :
 
 - FastAPI : c'est mon outil de choix, très léger. Je n'ai pas fourni d'interface frontale, uniquement des requêtes et pas de sérialisation.
-- Django : un serveur, uniquement des requêtes avec une sérialisation rudimentaire et une base de données basique.
 - Flask : un petit outil avec une interface frontale rudimentaire pour l'utilisateur, pas de sérialisation.
 
 Le web service prend en entrée tous les paramètres pertinents et permet à un utilisateur de faire une requête sur un seul joueur au modèle entraîné. Je n'ai pas prévu de déploiement, donc chaque webservice tournera uniquement en exécution locale.
@@ -62,31 +60,6 @@ L'archive contient les fichiers suivants :
 ├── Makefile
 ├── README.md
 ├── TODO.md
-├── backend
-│   └── server
-│       ├── endpoints
-│       │   ├── __init__.py
-│       │   ├── admin.py
-│       │   ├── apps.py
-│       │   ├── migrations
-│       │   │   ├── 0001_initial.py
-│       │   │   ├── __init__.py
-│       │   ├── models.py
-│       │   ├── serializers.py
-│       │   ├── tests.py
-│       │   ├── urls.py
-│       │   └── views.py
-│       ├── manage.py
-│       ├── ml
-│       │   ├── __init__.py
-│       │   ├── classifier.py
-│       │   └── registry.py
-│       └── server
-│           ├── __init__.py
-│           ├── asgi.py
-│           ├── settings.py
-│           ├── urls.py
-│           └── wsgi.py
 ├── data
 │   └── nba_logreg.csv
 ├── data_documents
@@ -162,21 +135,3 @@ La page d'accueil de l'application Flask est accessible à l'adresse suivante:
 une fois les paramètres soummis, le résultat de la prédiction s'affichera à l'adresse suivante:
 
   [http://127.0.0.1:5000/results](http://http://127.0.0.1:5000/results)
-
-## Django
-
-Pour lancer l'application Django en développement local, exécutez la commande dans le terminal:
-
-```bash
-make run_django_server
-```
-
-Peut-être que vous devrez exécuter les commandes suivantes pour créer la base de données et les migrations:
-
-```bash
-python backend/server/manage.py migrate
-```
-
-L'algorithme ML peut être accessible à l'adresse suivante :
-
-[http://127.0.0.1:8000/api/v1/income_classifier/predict](http://127.0.0.1:8000/api/v1/income_classifier/predict)
